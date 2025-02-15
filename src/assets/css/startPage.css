@@ -1,0 +1,121 @@
+
+.frame {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  padding: 0;
+  background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.7) 11.51%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    url("/images/pyramids.jpg") center/cover no-repeat;
+  z-index: 1;
+  overflow-y: hidden;
+}
+
+.full {
+  overflow: hidden;
+}
+
+.inner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  width: 100%;
+  min-height: 100vh;
+  margin-top: 35vh;
+}
+
+
+.title {
+  width: 100%;
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: 700;
+  font-size: 96px;
+  line-height: 1.25;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+
+.buttonR {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  gap: 10px;
+  min-width: 180px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 2px solid #ffffff;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.buttonR:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+
+.buttonR-text {
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  text-align: center;
+  color: #ffffff;
+}
+
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  will-change: opacity, transform;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+@media screen and (max-width: 768px) {
+  .title {
+    font-size: 60px;
+    margin-bottom: 15px;
+  }
+  .buttonR {
+    min-width: 150px;
+    padding: 12px;
+  }
+  .buttonR-text {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .title {
+    font-size: 40px;
+    margin-bottom: 10px;
+  }
+  .buttonR {
+    min-width: 120px;
+    padding: 10px;
+  }
+  .buttonR-text {
+    font-size: 14px;
+  }
+}
