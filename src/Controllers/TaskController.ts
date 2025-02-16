@@ -16,7 +16,7 @@ export const addTask = async (req: Request, res: Response): Promise<void> => {
     await task.save();
     res.status(201).json(task);
   } catch (error) {
-    res.status(404).json({ message: "Error adding task" });
+    res.status(500).json({ message: "Error adding task" });
   }
 };
 
@@ -30,7 +30,7 @@ export const updateTask = async (
     });
     res.status(201).json(task);
   } catch (error) {
-    res.status(404).json({ message: "Error updating task" });
+    res.status(500).json({ message: "Error updating task" });
   }
 };
 

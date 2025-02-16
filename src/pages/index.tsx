@@ -12,7 +12,7 @@ export default function AdvancedTable() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/tasks`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/tasks`||'https://task-management-ba4o24vgs-andrew78041-gmailcoms-projects.vercel.app/api/tasks');
         const tasks = response.data as {
           _id: string;
           title: string;
