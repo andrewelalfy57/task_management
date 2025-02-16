@@ -47,7 +47,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
 
   const deleteTask = async () => {
     try {
-      await axios.delete(`http://localhost:8000/tasks/${task.id}`);
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/tasks/${task.id}`);
       setIsDeleteDialogOpen(false); // Close the delete dialog after deletion
       window.location.reload(); // Reload the page to reflect the changes
     } catch (error) {
@@ -94,7 +94,7 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
         completed: editedTask.completed === "completed",
       };
       console.log("Updated task:", updatedTask);
-      await axios.put(`http://localhost:8000/tasks/${task.id}`, updatedTask);
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/tasks/${task.id}`, updatedTask);
       closeDialog();
       window.location.reload();
     } catch (error) {
