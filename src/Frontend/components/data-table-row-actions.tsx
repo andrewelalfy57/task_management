@@ -45,22 +45,15 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
   });
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false); // State for delete confirmation
 
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
-
   const deleteTask = async () => {
     try {
-      await axios.delete(`${API_BASE_URL}/api/tasks/${task.id}`, {
-        headers: { "Content-Type": "application/json" },
-      });
-  
+      await axios.delete(`http://localhost:8000/tasks/${task.id}`);
       setIsDeleteDialogOpen(false); // Close the delete dialog after deletion
       window.location.reload(); // Reload the page to reflect the changes
     } catch (error) {
-      console.error("Error deleting task:");
+      console.error("Error deleting task:", error);
     }
   };
-  
 
   const openDialog = (editMode: boolean) => {
     setIsEditMode(editMode);
@@ -94,27 +87,21 @@ export function DataTableRowActions({ row }: DataTableRowActionsProps) {
     }));
   };
 
-
   const handleSave = async () => {
     try {
       const updatedTask = {
         ...editedTask,
         completed: editedTask.completed === "completed",
       };
-  
       console.log("Updated task:", updatedTask);
-  
-      await axios.put(`${API_BASE_URL}/api/tasks/${task.id}`, updatedTask, {
-        headers: { "Content-Type": "application/json" },
-      });
-  
+      await axios.put(`http://localhost:8000/tasks/${task.id}`, updatedTask);
       closeDialog();
       window.location.reload();
     } catch (error) {
-      console.error("Error updating task:");
+      console.error("Error updating task:", error);
     }
   };
-  
+
   return (
     <>
       <DropdownMenu>

@@ -2,13 +2,13 @@ import express, { Application } from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-
 dotenv.config();
 
 const MongoURI: string | undefined = process.env.MONGO_URL;
 const app: Application = express();
 app.use(cors());
 app.use(express.json());
+const port: string | number = process.env.PORT || 8000;
 
 import {
   addTask,
@@ -19,22 +19,27 @@ import {
 
 mongoose.set("strictQuery", false);
 
-// Check if MongoDB URI is available
 if (!MongoURI) {
   console.error("MongoDB URL is missing in environment variables.");
-  process.exit(1);
+  process.exit(1); // Exit if MongoURI is not defined
 }
 
-// Connect to MongoDB (only once per deployment)
 mongoose
   .connect(MongoURI)
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch((err) => console.error("❌ MongoDB connection error:", err));
+  .then(() => {
+    console.log("MongoDB is now connected!");
+    // Starting server
+    app.listen(port, () => {
+      console.log(`Listening to requests on http://localhost:${port}`);
+    });
+  })
+  .catch((err) => console.log(err));
 
-// Define API routes
-app.get("/api/tasks", getTasks);
-app.post("/api/tasks", addTask);
-app.put("/api/tasks/:id", updateTask);
-app.delete("/api/tasks/:id", deleteTask);
+app.use(express.json());
+
+app.get("/tasks", getTasks);
+app.post("/tasks", addTask);
+app.put("/tasks/:id", updateTask);
+app.delete("/tasks/:id", deleteTask);
 
 export default app;

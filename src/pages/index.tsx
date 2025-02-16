@@ -9,13 +9,10 @@ export default function AdvancedTable() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/api/tasks`);
-        
+        const response = await axios.get("http://localhost:8000/tasks");
         const tasks = response.data as {
           _id: string;
           title: string;
@@ -23,28 +20,29 @@ export default function AdvancedTable() {
           completed: boolean;
           createdAt: string;
         }[];
-  
+
         // Convert dates on the client side
         const formattedData = tasks.map((task) => ({
           id: task._id,
           title: task.title,
           description: task.description,
           status: task.completed ? "completed" : "notcompleted",
-          createdAt: new Intl.DateTimeFormat("en-US").format(new Date(task.createdAt)),
+          createdAt: new Intl.DateTimeFormat("en-US").format(
+            new Date(task.createdAt)
+          ),
         }));
-  
+
         setData(formattedData);
       } catch (error) {
-        console.error("Error fetching data:");
+        console.error("Error fetching data:", error);
         setError("Failed to load data.");
       } finally {
         setLoading(false);
       }
     };
-  
+
     fetchData();
   }, []);
-  
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Failed to load data.</p>;

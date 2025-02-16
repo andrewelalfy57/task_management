@@ -55,22 +55,15 @@ export function CreateTaskDialog() {
   async function onSubmit(data: TaskFormValues) {
     setIsLoading(true);
     try {
-      
-      const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
-  
       // Fetch existing tasks
-      const response = await fetch(`${API_BASE_URL}/api/tasks`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        mode: "cors", // Allow cross-origin requests
-      });
-  
+      const response = await fetch("http://localhost:8000/tasks");
       if (!response.ok) throw new Error("Failed to fetch tasks");
-  
+
       const tasks = await response.json();
-      const taskExists = tasks.some((task: { title: string }) => task.title === data.title);
-  
+      const taskExists = tasks.some(
+        (task: { title: string }) => task.title === data.title
+      );
+
       if (taskExists) {
         form.setError("title", {
           type: "manual",
@@ -79,30 +72,28 @@ export function CreateTaskDialog() {
         setIsLoading(false);
         return;
       }
-  
+
       // Proceed with task creation
       const { isCompleted, ...rest } = data;
       const formattedData = { ...rest, completed: isCompleted };
-  
-      const createResponse = await fetch(`${API_BASE_URL}/api/tasks`, {
+
+      const createResponse = await fetch("http://localhost:8000/tasks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formattedData),
-        mode: "cors", // Ensure Vercel allows this request
       });
-  
+
       if (!createResponse.ok) throw new Error("Failed to create task");
-  
+
       toast({
         title: "Task created",
         description: "Your new task has been successfully created.",
       });
-  
+
       window.location.reload();
       setOpen(false);
       form.reset();
     } catch (error) {
-      console.error("Error creating task:", error); // Debugging info
       toast({
         title: "Error",
         description: "There was a problem creating your task.",
@@ -111,7 +102,6 @@ export function CreateTaskDialog() {
       setIsLoading(false);
     }
   }
-  
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
